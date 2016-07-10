@@ -1,0 +1,22 @@
+{
+  "name": "shri-task-2",
+  "version": "1.0.0",
+  "description": "\"# shti-2016-task2\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reindeers/shri-2016-task2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reindeers/shri-2016-task2/issues"
+  },
+  "homepage": "https://github.com/reindeers/shri-2016-task2#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
