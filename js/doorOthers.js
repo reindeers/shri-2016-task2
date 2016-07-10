@@ -35,11 +35,11 @@ function Door0(number, onUnlock) {
      */
     function checkCondition() {
         var isOpened = true;
-      /*  buttons.forEach(function(b) {
+        buttons.forEach(function(b) {
             if (!b.classList.contains('door-riddle__button_pressed')) {
                 isOpened = false;
             }
-        });*/
+        });
 
         // Если все три кнопки зажаты одновременно, то откроем эту дверь
         if (isOpened) {
