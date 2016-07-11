@@ -119,20 +119,24 @@ function Door2(number, onUnlock) {
 
 
 
-    button.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
+    button.addEventListener('dblclick', _onButtonPointerDown.bind(this));
 
     function _onButtonPointerDown(e) {
       //  e.target.classList.add('door-riddle__button_pressed');
       //  checkCondition.apply(this);
+      this.unlock();
     };
 
     function onMotionChange(e) {
       var ag = e.accelerationIncludingGravity;
       if (ag.z > ag.x && ag.z > ag.y){
-        alert('На столе!');
-          this.unlock();
+
+        button.classList.remove("door-riddle__button_non-active");
+          //this.unlock();
+      } else {
+        button.classList.add("door-riddle__button_non-active");
       }
-      }
+    }
     window.addEventListener('devicemotion', onMotionChange, true);
 
     function checkCondition() {
