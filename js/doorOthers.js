@@ -6,9 +6,9 @@
  * @param {Function} onUnlock
  */
 function Door0(number, onUnlock) {
-    DoorBase.apply(this, arguments);
-
-    var buttons = [
+  DoorBase.apply(this, arguments);
+  
+  var buttons = [
         this.popup.querySelector('.door-riddle__button_0'),
         this.popup.querySelector('.door-riddle__button_1'),
         this.popup.querySelector('.door-riddle__button_2')
@@ -114,40 +114,21 @@ function Door2(number, onUnlock) {
 
     var button = this.popup.querySelector(".door-riddle__button_2");
 
+    button.addEventListener('dblclick', _onButtonPointerDblClick.bind(this));
 
-    //button.addEventListener('dblclick', _dblclick.bind(this)); //todo: point!
-
-
-
-    button.addEventListener('dblclick', _onButtonPointerDown.bind(this));
-
-    function _onButtonPointerDown(e) {
-      //  e.target.classList.add('door-riddle__button_pressed');
-      //  checkCondition.apply(this);
+    function _onButtonPointerDblClick(e) {
       this.unlock();
     };
 
     function onMotionChange(e) {
       var ag = e.accelerationIncludingGravity;
       if (ag.z > ag.x && ag.z > ag.y){
-
         button.classList.remove("door-riddle__button_non-active");
-          //this.unlock();
       } else {
         button.classList.add("door-riddle__button_non-active");
       }
     }
     window.addEventListener('devicemotion', onMotionChange, true);
-
-    function checkCondition() {
-        var isOpened = true;
-
-
-        // Если все три кнопки зажаты одновременно, то откроем эту дверь
-        if (isOpened) {
-            this.unlock();
-        }
-    }
 
 }
 
@@ -164,16 +145,22 @@ Door2.prototype.constructor = DoorBase;
 function Box(number, onUnlock) {
     DoorBase.apply(this, arguments);
 
-
-
     var block = this.popup.querySelector('.door-riddle__block_3');
     var button = this.popup.querySelector('.door-riddle__button_3');
     var button2 = this.popup.querySelector('.door-riddle__button_non-active');
+    var container = this.popup;
+    button.style.top = block.getBoundingClientRect().top+2+'px';
+    button.style.left = block.getBoundingClientRect().left-5+'px';
 
-    block.addEventListener('pointermove', _onButtonPointerMove.bind(this));
-    block.addEventListener('pointerleave', _onButtonPointerLeave.bind(this));
+    //block.addEventListener('pointermove', _onButtonPointerMove.bind(this));
+    container.addEventListener('pointermove', _onButtonPointerMove.bind(this));
+    //block.addEventListener('mouseleave', _onButtonPointerLeave.bind(this));
     button2.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
-  //  block.addEventListener('pointerup', _onButtonPointerUp.bind(this));
+    button.addEventListener('pointerup', _onButtonPointerUp.bind(this));
+
+    function _onButtonPointerUp(e) {
+        button2.classList.add("door-riddle__button_non-active");
+    };
 
     function _onButtonPointerDown(e) {
         if (!button2.classList.contains("door-riddle__button_non-active")) {
@@ -183,25 +170,35 @@ function Box(number, onUnlock) {
         };
     };
 
-
     function _onButtonPointerMove(e) {
-        checkCondition.apply(this);
-        button.style.display = "block";
-        button.style.top = event.clientY+'px';
-        button.style.left = event.clientX-300+'px';
-        console.log('move!')
+      if (event.clientY > button.getBoundingClientRect().top-10 && event.clientY < button.getBoundingClientRect().bottom+10 &&
+          event.clientX > button.getBoundingClientRect().left-10 && event.clientX < button.getBoundingClientRect().right+10) {
+            checkCondition.apply(this);
+            button.style.top = event.clientY-10 + 'px';
+            button.style.left = event.clientX-20 + 'px';
+
+            if (!(event.clientY > block.getBoundingClientRect().top-10 && event.clientY < block.getBoundingClientRect().bottom+10)
+            || event.clientX < block.getBoundingClientRect().left-10)  {
+              button.style.top = block.getBoundingClientRect().top + 2 + 'px';
+              button.style.left = block.getBoundingClientRect().left - 5 + 'px';
+            }
+
+            if ((event.clientY > block.getBoundingClientRect().top-10
+              && event.clientY < block.getBoundingClientRect().bottom+10)
+              && event.clientX > block.getBoundingClientRect().right) {
+                button.style.top = block.getBoundingClientRect().top + 2 + 'px';
+                button.style.left = block.getBoundingClientRect().right - 25 + 'px';
+            };
+
+      }
+
     };
-
-    function _onButtonPointerLeave(e) {
-      button.style.display = "none";
-      alert('ouch!');
-    };
-
-
     function checkCondition() {
-      if ((event.clientY < block.getBoundingClientRect().top
-        && event.clientY < block.getBoundingClientRect().bottom)
+      if ((event.clientY > block.getBoundingClientRect().top-10
+        && event.clientY < block.getBoundingClientRect().bottom+10)
         && event.clientX > block.getBoundingClientRect().right) {
+          button.style.top = block.getBoundingClientRect().top + 2 + 'px';
+          button.style.left = block.getBoundingClientRect().right + 5 + 'px';
           button2.classList.remove("door-riddle__button_non-active");
           //this.unlock(); //тип доступной сделать
       };

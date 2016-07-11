@@ -202,7 +202,7 @@ body {
   width: 25px;
   height: 25px;
   position: absolute;
-  display: none;
+  display: block;
 }
 
 .door-riddle__button_non-active {
