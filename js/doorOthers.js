@@ -71,7 +71,9 @@ function Door1(number, onUnlock) {
     var tt = 0;
     var cnt = 0;
     var start =  0;
+    var timerId;
     function _onButtonPointerDown(e) {
+      if (timerId) clearInterval(timerId);
       var s = new Date();
       var start = s.getTime();
       (start - tt) < 300 ? cnt++ : cnt--;
@@ -81,18 +83,18 @@ function Door1(number, onUnlock) {
     };
 
     function _onButtonPointerUp() {
-        //  cnt--;
-        //  counter.style.height = cnt*20 + "px";
+      timerId = setInterval(function() {
+        if (cnt == 0) clearInterval(timerId);
+          cnt--;
+          counter.style.height = cnt*20 + "px";
+      }, 90);
+
     };
 
-    /**
-     * Проверяем, можно ли теперь открыть дверь
-     */
     function checkCondition() {
       var isOpened = false;
-      isOpened = (cnt > 5) ? true : false;
+      isOpened = (cnt > 10) ? true : false;
 
-      // Если все три кнопки зажаты одновременно, то откроем эту дверь
       if (isOpened) {
           this.unlock();
       }
@@ -117,10 +119,31 @@ function Door2(number, onUnlock) {
 
 
 
-    button.addEventListener('mousedown', _onButtonPointerDown.bind(this));
+    button.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
 
     function _onButtonPointerDown(e) {
+      //  e.target.classList.add('door-riddle__button_pressed');
+      //  checkCondition.apply(this);
     };
+
+    function onMotionChange(e) {
+      var ag = e.accelerationIncludingGravity;
+      if (ag.z > ag.x && ag.z > ag.y){
+        alert('На столе!');
+          this.unlock();
+      }
+      }
+    window.addEventListener('devicemotion', onMotionChange, true);
+
+    function checkCondition() {
+        var isOpened = true;
+
+
+        // Если все три кнопки зажаты одновременно, то откроем эту дверь
+        if (isOpened) {
+            this.unlock();
+        }
+    }
 
 }
 
@@ -137,24 +160,36 @@ Door2.prototype.constructor = DoorBase;
 function Box(number, onUnlock) {
     DoorBase.apply(this, arguments);
 
-    /*function onMotionChange(e) {
-      var ag = e.accelerationIncludingGravity;
-      if (ag.z > ag.x && ag.z > ag.y){ nodeAG.innerHTML += '<span>На столе</span>';}
-      }
-    window.addEventListener('devicemotion', onMotionChange, true);*/
+
 
     var block = this.popup.querySelector('.door-riddle__block_3');
+    var button = this.popup.querySelector('.door-riddle__button_3');
+    var button2 = this.popup.querySelector('.door-riddle__button_non-active');
 
     block.addEventListener('pointermove', _onButtonPointerMove.bind(this));
     block.addEventListener('pointerleave', _onButtonPointerLeave.bind(this));
+    button2.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
   //  block.addEventListener('pointerup', _onButtonPointerUp.bind(this));
+
+    function _onButtonPointerDown(e) {
+        if (!button2.classList.contains("door-riddle__button_non-active")) {
+          e.target.classList.add('door-riddle__button_pressed');
+          this.unlock();
+          this.showCongratulations();
+        };
+    };
+
 
     function _onButtonPointerMove(e) {
         checkCondition.apply(this);
+        button.style.display = "block";
+        button.style.top = event.clientY+'px';
+        button.style.left = event.clientX-300+'px';
         console.log('move!')
     };
 
     function _onButtonPointerLeave(e) {
+      button.style.display = "none";
       alert('ouch!');
     };
 
@@ -163,7 +198,8 @@ function Box(number, onUnlock) {
       if ((event.clientY < block.getBoundingClientRect().top
         && event.clientY < block.getBoundingClientRect().bottom)
         && event.clientX > block.getBoundingClientRect().right) {
-          this.unlock();
+          button2.classList.remove("door-riddle__button_non-active");
+          //this.unlock(); //тип доступной сделать
       };
     }
 
