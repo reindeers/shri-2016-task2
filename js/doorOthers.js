@@ -7,7 +7,7 @@
  */
 function Door0(number, onUnlock) {
   DoorBase.apply(this, arguments);
-  
+
   var buttons = [
         this.popup.querySelector('.door-riddle__button_0'),
         this.popup.querySelector('.door-riddle__button_1'),
@@ -112,6 +112,25 @@ Door1.prototype.constructor = DoorBase;
 function Door2(number, onUnlock) {
     DoorBase.apply(this, arguments);
 
+    var pointerEventsChords = [0, 0, 0, 0];
+    var alert = this.popup.querySelector(".door-riddle__alert");
+
+    this.popup.addEventListener('pointerdown', function(event) {
+      pointerEventsChords[0] = event.screenX;
+      pointerEventsChords[1] = event.screenY;
+    }, false);
+
+    this.popup.addEventListener('pointerup', function(event) {
+      pointerEventsChords[2] = event.screenX;
+      pointerEventsChords[3] = event.screenY;
+      swipe();
+    }, false);
+
+    function swipe() {
+      if (pointerEventsChords[2] < pointerEventsChords[0]) {
+        alert.style.display = 'none';
+      };
+    }
     var button = this.popup.querySelector(".door-riddle__button_2");
 
     button.addEventListener('dblclick', _onButtonPointerDblClick.bind(this));

@@ -208,3 +208,12 @@ body {
 .door-riddle__button_non-active {
   background-color: #D29060;
 }
+
+.door-riddle__alert {
+  width: 90%;
+  height: 40%;
+  position: absolute;
+  top: 20%;
+  left: 0px;
+  background: white;
+}
