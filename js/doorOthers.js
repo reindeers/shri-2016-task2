@@ -62,45 +62,39 @@ Door0.prototype.constructor = DoorBase;
 function Door1(number, onUnlock) {
     DoorBase.apply(this, arguments);
 
-    var button = this.popup.querySelector('.door-riddle__button_1');
+    var button = this.popup.querySelector('.door-riddle__button_non-active');
     var counter = this.popup.querySelector('.door-riddle__block_1');
-
-    const CIRCLE_DEGREES = 360;
-    const HALF_CIRCLE_DEGREES = 180;
-
-    var pointerEventsChords = [0, 0, 0, 0];
-    var alert = this.popup.querySelector(".door-riddle__alert");
-
-    this.popup.addEventListener('pointerdown', function(event) {
-      pointerEventsChords[0] = event.screenX;
-      pointerEventsChords[1] = event.screenY;
-    }, false);
-
-    this.popup.addEventListener('pointerup', function(event) {
-      pointerEventsChords[2] = event.screenX;
-      pointerEventsChords[3] = event.screenY;
-    }, false);
-
-    function getAngle(originX, originY, projectionX, projectionY) {
-        var angle = Math.atan2(projectionY - originY, projectionX - originX) *
-          ((HALF_CIRCLE_DEGREES) / Math.PI);
-        return CIRCLE_DEGREES - ((angle < 0) ? (CIRCLE_DEGREES + angle) : angle);
+    var touchCount = 0;
+    function getAngle(e, event) {
+        var center_x = (e.offsetLeft) + (e.offsetWidth / 2);
+        var center_y = (e.offsetTop) + (e.offsetHeight / 2);
+        var mouse_x = event.pageX;
+        var mouse_y = event.pageY;
+        var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
+        var degree = (radians * (180 / Math.PI) * -1) + 100;
+        e.style.transform = 'rotate(' + degree + 'deg)';
+        if (degree < 190 && degree > 170 && touchCount == 2) {
+          button.classList.remove("door-riddle__button_non-active");
+          button.classList.add("door-riddle__button_1");
+        }
     };
 
-    var diffX = pointerEventsChords[0] - pointerEventsChords[2];
-    var diffY = pointerEventsChords[1] - pointerEventsChords[3];
-
-    //Translate the current pivot point.
     function zz(e){
-      var currentAngle = getAngle(pointerEventsChords[0], pointerEventsChords[1],
-        pointerEventsChords[2], pointerEventsChords[3]);
-
-      if (diffX < 0 && currentAngle > 0) alert(currentAngle);
+      getAngle(this.popup, e);
     };
 
 
+    function _addTouch(){
+      touchCount++;
+    }
 
-    button.addEventListener('pointerdown', /*_onButtonPointerDown.bind(this)*/zz.bind(this));
+    function _removeTouch(){
+      touchCount--;
+    }
+    this.popup.addEventListener('pointermove', zz.bind(this)); //!
+    this.popup.addEventListener('pointerup', _removeTouch.bind(this));
+    this.popup.addEventListener('pointerdown', _addTouch.bind(this));
+    button.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
     button.addEventListener('pointerup', _onButtonPointerUp.bind(this));
 
     var tt = 0;

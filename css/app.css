@@ -217,3 +217,15 @@ body {
   left: 0px;
   background: white;
 }
+
+.popup__content_level_1 {
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+
+  transition: transform .5s;
+
+  will-change: transform;
+
+  backface-visibility: hidden;
+}
