@@ -65,7 +65,42 @@ function Door1(number, onUnlock) {
     var button = this.popup.querySelector('.door-riddle__button_1');
     var counter = this.popup.querySelector('.door-riddle__block_1');
 
-    button.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
+    const CIRCLE_DEGREES = 360;
+    const HALF_CIRCLE_DEGREES = 180;
+
+    var pointerEventsChords = [0, 0, 0, 0];
+    var alert = this.popup.querySelector(".door-riddle__alert");
+
+    this.popup.addEventListener('pointerdown', function(event) {
+      pointerEventsChords[0] = event.screenX;
+      pointerEventsChords[1] = event.screenY;
+    }, false);
+
+    this.popup.addEventListener('pointerup', function(event) {
+      pointerEventsChords[2] = event.screenX;
+      pointerEventsChords[3] = event.screenY;
+    }, false);
+
+    function getAngle(originX, originY, projectionX, projectionY) {
+        var angle = Math.atan2(projectionY - originY, projectionX - originX) *
+          ((HALF_CIRCLE_DEGREES) / Math.PI);
+        return CIRCLE_DEGREES - ((angle < 0) ? (CIRCLE_DEGREES + angle) : angle);
+    };
+
+    var diffX = pointerEventsChords[0] - pointerEventsChords[2];
+    var diffY = pointerEventsChords[1] - pointerEventsChords[3];
+
+    //Translate the current pivot point.
+    function zz(e){
+      var currentAngle = getAngle(pointerEventsChords[0], pointerEventsChords[1],
+        pointerEventsChords[2], pointerEventsChords[3]);
+
+      if (diffX < 0 && currentAngle > 0) alert('fdf');
+    };
+
+
+
+    button.addEventListener('pointerdown', /*_onButtonPointerDown.bind(this)*/zz.bind(this));
     button.addEventListener('pointerup', _onButtonPointerUp.bind(this));
 
     var tt = 0;
