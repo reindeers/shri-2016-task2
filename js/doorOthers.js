@@ -95,7 +95,7 @@ function Door1(number, onUnlock) {
       var currentAngle = getAngle(pointerEventsChords[0], pointerEventsChords[1],
         pointerEventsChords[2], pointerEventsChords[3]);
 
-      if (diffX < 0 && currentAngle > 0) alert('fdf');
+      if (diffX < 0 && currentAngle > 0) alert(currentAngle);
     };
 
 
