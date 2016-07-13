@@ -186,7 +186,7 @@ body {
 }
 
 .door-riddle__block {
-  width: 70vw;
+  width: 64px;
   height: 0px;
   background-color: #583319;
   border: 1px solid #F3E9E0;
@@ -210,13 +210,34 @@ body {
 }
 
 .door-riddle__alert {
-  width: 90%;
-  height: 40%;
-  position: absolute;
-  top: 20%;
-  left: 0px;
-  background: white;
+  background: #E5DDCB;
+  width: 60vw;;
+  position: fixed;
+
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2), -1px 0 4px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  top: calc(50vh - 150px);
+  left: calc(50vw - 200px);
+  height: 5vh;
+  transition: all .6s cubic-bezier(0.845, -0.265, 0.190, 1.280);
+
+  font-size: 18px;
+  color: #555;
+  padding: 40px;
 }
+
+.door-riddle__alert_two {
+   top: calc(50vh - 150px);
+   left: -400px;
+   transition: all .6s cubic-bezier(0.845, -0.265, 0.190, 1.280);
+
+}
+/*.popup.twoOpen {
+   top: calc(50vh - 150px);
+   left: calc(50vw - 200px);
+}*/
+
+
 
 .popup__content_level_1 {
   -moz-transform: rotate(180deg);

@@ -63,11 +63,11 @@ function Door1(number, onUnlock) {
     DoorBase.apply(this, arguments);
 
     var button = this.popup.querySelector('.door-riddle__button_non-active');
-    button.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
-    function _onButtonPointerDown(e) {
-        this.unlock();
-    }
-  /*  var counter = this.popup.querySelector('.door-riddle__block_1');
+  //  button.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
+  //  function _onButtonPointerDown(e) {
+  //      this.unlock();
+  //  }
+    var counter = this.popup.querySelector('.door-riddle__block_1');
     var touchCount = 0;
     function getAngle(e, event) {
         var center_x = (e.offsetLeft) + (e.offsetWidth / 2);
@@ -83,7 +83,7 @@ function Door1(number, onUnlock) {
         }
     };
 
-    function zz(e){
+    function _onPopupPointerMove(e){
       getAngle(this.popup, e);
     };
 
@@ -95,7 +95,7 @@ function Door1(number, onUnlock) {
     function _removeTouch(){
       touchCount--;
     }
-    this.popup.addEventListener('pointermove', zz.bind(this)); //!
+    this.popup.addEventListener('pointermove', _onPopupPointerMove.bind(this));
     this.popup.addEventListener('pointerup', _removeTouch.bind(this));
     this.popup.addEventListener('pointerdown', _addTouch.bind(this));
     button.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
@@ -116,11 +116,14 @@ function Door1(number, onUnlock) {
     };
 
     function _onButtonPointerUp() {
-      timerId = setInterval(function() {
-        if (cnt == 0) clearInterval(timerId);
-          cnt--;
-          counter.style.height = cnt*20 + "px";
-      }, 90);
+      if (cnt > 0 ){
+        timerId = setInterval(function() {
+            cnt--;
+            counter.style.height = cnt*20 + "px";
+        }, 90);
+      }
+      else if (cnt == 0) clearInterval(timerId);
+
 
     };
 
@@ -131,7 +134,7 @@ function Door1(number, onUnlock) {
       if (isOpened) {
           this.unlock();
       }
-    }*/
+    }
    }
 Door1.prototype = Object.create(DoorBase.prototype);
 Door1.prototype.constructor = DoorBase;
@@ -161,7 +164,7 @@ function Door2(number, onUnlock) {
 
     function swipe() {
       if (pointerEventsChords[2] < pointerEventsChords[0]) {
-        alert.style.display = 'none';
+        alert.classList.add('door-riddle__alert_two');
       };
     }
     var button = this.popup.querySelector(".door-riddle__button_2");
@@ -228,20 +231,20 @@ function Box(number, onUnlock) {
     };
 
     function _onButtonPointerMove(e) {
-      if (event.clientY > button.getBoundingClientRect().top-10 && event.clientY < button.getBoundingClientRect().bottom+10 &&
-          event.clientX > button.getBoundingClientRect().left-10 && event.clientX < button.getBoundingClientRect().right+10) {
+      if (event.clientY > button.getBoundingClientRect().top-5 && event.clientY < button.getBoundingClientRect().bottom+5 &&
+          event.clientX > button.getBoundingClientRect().left-5 && event.clientX < button.getBoundingClientRect().right+5) {
             checkCondition.apply(this);
             button.style.top = event.clientY-10 + 'px';
             button.style.left = event.clientX-20 + 'px';
 
-            if (!(event.clientY > block.getBoundingClientRect().top-10 && event.clientY < block.getBoundingClientRect().bottom+10)
+            if (!(event.clientY > block.getBoundingClientRect().top-5 && event.clientY < block.getBoundingClientRect().bottom+5)
             || event.clientX < block.getBoundingClientRect().left-10)  {
               button.style.top = block.getBoundingClientRect().top + 2 + 'px';
               button.style.left = block.getBoundingClientRect().left - 5 + 'px';
             }
 
-            if ((event.clientY > block.getBoundingClientRect().top-10
-              && event.clientY < block.getBoundingClientRect().bottom+10)
+            if ((event.clientY > block.getBoundingClientRect().top-5
+              && event.clientY < block.getBoundingClientRect().bottom+5)
               && event.clientX > block.getBoundingClientRect().right) {
                 button.style.top = block.getBoundingClientRect().top + 2 + 'px';
                 button.style.left = block.getBoundingClientRect().right - 25 + 'px';
@@ -251,8 +254,8 @@ function Box(number, onUnlock) {
 
     };
     function checkCondition() {
-      if ((event.clientY > block.getBoundingClientRect().top-10
-        && event.clientY < block.getBoundingClientRect().bottom+10)
+      if ((event.clientY > block.getBoundingClientRect().top-5
+        && event.clientY < block.getBoundingClientRect().bottom+5)
         && event.clientX > block.getBoundingClientRect().right) {
           button.style.top = block.getBoundingClientRect().top + 2 + 'px';
           button.style.left = block.getBoundingClientRect().right + 5 + 'px';
