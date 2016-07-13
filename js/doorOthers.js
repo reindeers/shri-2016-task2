@@ -63,7 +63,11 @@ function Door1(number, onUnlock) {
     DoorBase.apply(this, arguments);
 
     var button = this.popup.querySelector('.door-riddle__button_non-active');
-    var counter = this.popup.querySelector('.door-riddle__block_1');
+    button.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
+    function _onButtonPointerDown(e) {
+        this.unlock();
+    }
+  /*  var counter = this.popup.querySelector('.door-riddle__block_1');
     var touchCount = 0;
     function getAngle(e, event) {
         var center_x = (e.offsetLeft) + (e.offsetWidth / 2);
@@ -73,7 +77,7 @@ function Door1(number, onUnlock) {
         var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
         var degree = (radians * (180 / Math.PI) * -1) + 100;
         e.style.transform = 'rotate(' + degree + 'deg)';
-        if (degree < 190 && degree > 170 && touchCount == 2) {
+        if (degree < 190 && degree > 170 && touchCount == 1) {
           button.classList.remove("door-riddle__button_non-active");
           button.classList.add("door-riddle__button_1");
         }
@@ -127,7 +131,7 @@ function Door1(number, onUnlock) {
       if (isOpened) {
           this.unlock();
       }
-     }
+    }*/
    }
 Door1.prototype = Object.create(DoorBase.prototype);
 Door1.prototype.constructor = DoorBase;
@@ -141,7 +145,7 @@ Door1.prototype.constructor = DoorBase;
 function Door2(number, onUnlock) {
     DoorBase.apply(this, arguments);
 
-    var pointerEventsChords = [0, 0, 0, 0];
+    /*var pointerEventsChords = [0, 0, 0, 0];
     var alert = this.popup.querySelector(".door-riddle__alert");
 
     this.popup.addEventListener('pointerdown', function(event) {
@@ -176,7 +180,12 @@ function Door2(number, onUnlock) {
         button.classList.add("door-riddle__button_non-active");
       }
     }
-    window.addEventListener('devicemotion', onMotionChange, true);
+    window.addEventListener('devicemotion', onMotionChange, true);*/
+    var button = this.popup.querySelector('.door-riddle__button_2');
+    button.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
+    function _onButtonPointerDown(e) {
+        this.unlock();
+    }
 
 }
 

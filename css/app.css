@@ -186,7 +186,7 @@ body {
 }
 
 .door-riddle__block {
-  width: 64px;
+  width: 70vw;
   height: 0px;
   background-color: #583319;
   border: 1px solid #F3E9E0;
@@ -194,7 +194,7 @@ body {
 }
 
 .door-riddle__block_3 {
-  width: 300px;
+  width: 70vw;
   height: 30px;
 }
 
