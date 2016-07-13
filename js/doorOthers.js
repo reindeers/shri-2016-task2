@@ -35,11 +35,11 @@ function Door0(number, onUnlock) {
      */
     function checkCondition() {
         var isOpened = true;
-      /*  buttons.forEach(function(b) {
+        buttons.forEach(function(b) {
             if (!b.classList.contains('door-riddle__button_pressed')) {
                 isOpened = false;
             }
-        });*/
+        });
 
         // Если все три кнопки зажаты одновременно, то откроем эту дверь
         if (isOpened) {
@@ -148,7 +148,7 @@ Door1.prototype.constructor = DoorBase;
 function Door2(number, onUnlock) {
     DoorBase.apply(this, arguments);
 
-    /*var pointerEventsChords = [0, 0, 0, 0];
+    var pointerEventsChords = [0, 0, 0, 0];
     var alert = this.popup.querySelector(".door-riddle__alert");
 
     this.popup.addEventListener('pointerdown', function(event) {
@@ -183,12 +183,12 @@ function Door2(number, onUnlock) {
         button.classList.add("door-riddle__button_non-active");
       }
     }
-    window.addEventListener('devicemotion', onMotionChange, true);*/
-    var button = this.popup.querySelector('.door-riddle__button_2');
+    window.addEventListener('devicemotion', onMotionChange, true);
+    /*var button = this.popup.querySelector('.door-riddle__button_2');
     button.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
     function _onButtonPointerDown(e) {
         this.unlock();
-    }
+    }*/
 
 }
 
